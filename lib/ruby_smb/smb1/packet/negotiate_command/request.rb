@@ -1,4 +1,3 @@
-require 'pry'
 module RubySMB
   module SMB1
     module Packet
@@ -19,18 +18,10 @@ module RubySMB
           def build
             smb_header.protocol = RubySMB::SMB1::SMB_PROTOCOL_ID
             smb_header.command = RubySMB::SMB1::COMMANDS[:SMB_COM_NEGOTIATE]
-
-            #testing
-            smb_header.flags = 0x18
-            smb_header.flags2 = 0x0148
-            smb_header.tid = 0xffff
             self
           end
 
           def set_dialects(dialects=[])
-            # raise ArgumentError, 'Must be an Array of Dialects' unless dialects.kind_of? Enumerable
-            # bad_dialect = dialects.detect{ |dialect| !dialect.is_a? RubySMB::SMB1::Packet::NegotiateCommand::RequestDataBlock::Dialect }
-            # raise ArgumentError, "#{bad_dialect} is not a valid Dialect" if bad_dialect
             dialects_block = BinData::Array.new(:type => :dialect)
             dialects_block.assign(dialects)
             smb_data_block.bytes = dialects_block.to_binary_s
