@@ -8,102 +8,77 @@ class  NegotiateRequest < RubySMB::Field::Composite
 
     add_child( RubySMB::Field::LeafField.new(
                     name: :protocol,
-                 n_bytes_allocated: 4,
+       n_bytes_allocated: 4,
                    value: "\xFFSMB"
                ))
 
     add_child(RubySMB::Field::LeafField.new(
-                   name: :command,
-                   n_bytes_allocated: 1,
-                  value: "\x72"
+                    name: :command,
+       n_bytes_allocated: 1,
+                   value: "\x72"
               ))
 
     add_child(RubySMB::Field::LeafField.new(
-                   name: :status,
-                   n_bytes_allocated: 4,
-                  value: "\x00"
+                    name: :status,
+       n_bytes_allocated: 4,
+                   value: "\x00"
               ))
 
     add_child( RubySMB::Field::LeafField.new(
-                   name: :flags,
-                   n_bytes_allocated: 1,
-                  value: "\x18"
+                    name: :flags,
+       n_bytes_allocated: 1,
+                   value: "\x18"
                ))
 
     add_child( RubySMB::Field::LeafField.new(
-                   name: :flags2,
-                   n_bytes_allocated: 2,
-                  value: "\x48\x01"
+                    name: :flags2,
+       n_bytes_allocated: 2,
+                   value: "\x48\x01"
                ))
 
     add_child( RubySMB::Field::LeafField.new(
-                   name: :pid_high,
-                   n_bytes_allocated: 2,
-                  value: "\x00"
+                    name: :pid_high,
+       n_bytes_allocated: 2,
+                   value: "\x00"
                ))
 
     add_child( RubySMB::Field::LeafField.new(
-                   name: :security_features,
-                   n_bytes_allocated: 8,
-                  value: "\x00"
+                    name: :security_features,
+       n_bytes_allocated: 8,
+                   value: "\x00"
                ))
 
     add_child( RubySMB::Field::LeafField.new(
-                   name: :reserved,
-                   n_bytes_allocated: 2,
-                  value: "\x00"
+                    name: :reserved,
+       n_bytes_allocated: 2,
+                   value: "\x00"
                ))
 
     add_child( RubySMB::Field::LeafField.new(
-                   name: :tid,
-                   n_bytes_allocated: 2,
-                  value: "\xFF\xFF"
+                    name: :tid,
+       n_bytes_allocated: 2,
+                   value: "\xFF\xFF"
                ))
 
     add_child( RubySMB::Field::LeafField.new(
-                   name: :pid_low,
-                   n_bytes_allocated: 2,
-                  value: "\x00"
+                    name: :pid_low,
+       n_bytes_allocated: 2,
+                   value: "\x00"
                ))
 
     add_child( RubySMB::Field::LeafField.new(
-                   name: :uid,
-                   n_bytes_allocated: 2,
-                  value: "\x00"
+                    name: :uid,
+       n_bytes_allocated: 2,
+                   value: "\x00"
                ))
 
     add_child( RubySMB::Field::LeafField.new(
-                   name: :mid,
-                   n_bytes_allocated: 2,
-                  value: "\x00"
+                    name: :mid,
+       n_bytes_allocated: 2,
+                   value: "\x00"
                ))
 
-    add_child( RubySMB::Field::LeafField.new(
-                   name: :dialects,
-                   n_bytes_allocated: 34,
-                  value: "\x02NT LM 0.12\x00\x02SMB 2.002\x00\x02SMB 2.???\x00"
-               ))
-
-
-
-    # add_child( RubySMB::Field::LeafField.new do |f|
-    #              f.name         = :dialects
-    #              f.n_bytes_allocated = 34
-    #              f.dialects = RubySMB::Field::Composite_Field.new do |d|
-    #                  d.add_child(RubySMB::Field::LeafField.new do |df|
-    #                   df.name   = :d1
-    #                   df.n_bytes_allocated = 12
-    #                   df.value  = "\x02NT LM 0.12\x00"
-    #                  end)
-    #
-    #                  d.add_child()
-    #
-    #
-    #
-    #              f.value        = "\x02NT LM 0.12\x00\x02SMB 2.002\x00\x02SMB 2.???\x00"
-    #            end )
-
-
+    set_dialects(['NT LM 0.12', 'SMB 2.002', 'SMB 2.???'])
   end
 
   def build
@@ -111,10 +86,33 @@ class  NegotiateRequest < RubySMB::Field::Composite
   end
 
   def field(name)
-    puts self.inspect
     children.select { |f| f.name == name }.first
   end
 
+  def set_dialects(dialects = [])
+    self.delete_child(children.select{| field| field.name == 'dialects'}.first)
+    dialects_field = RubySMB::Field::Composite.new(name: 'dialects')
+    dialects.each_with_index do |dialect, index|
+      dialect_field = RubySMB::Field::Composite.new(name: "dialect#{index}")
+      dialect_field.add_child(
+                            name: 'buffer_format',
+               n_bytes_allocated: 1,
+                           value: "\x02"
+      )
+      dialect_field.add_child(
+                            name: 'dialect_string',
+                           value: dialect
+      )
+      dialect_field.add_child(
+                            name: 'null',
+               n_bytes_allocated: 1,
+                           value: "\x00"
+      )
+
+      dialects_field.add_child(dialect_field)
+    end
+    self.add_child(dialects_field)
+  end
 end
 end
 end
