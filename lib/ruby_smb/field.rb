@@ -1,11 +1,13 @@
 module RubySMB
 class  Field
   autoload :Composite, 'ruby_smb/field/composite'
-  def initialize(children:  [], name:  nil, n_bytes:  0, value:  '')
-    @children  =  children
-    @name      =  name
-    @n_bytes   =  n_bytes
-    @value     =  value
+  autoload :LeafField, 'ruby_smb/field/leaf_field'
+  def initialize(children:  [], name:  nil, n_bytes:  0, value:  '', n_bytes_allocated: 0)
+            @children  =  children
+            @name      =  name
+            @n_bytes   =  n_bytes
+    @n_bytes_allocated = n_bytes_allocated
+            @value     =  value
   end
 
   def add_child(child)

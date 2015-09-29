@@ -14,8 +14,8 @@ RSpec.describe NegotiateRequest do
         expect(field.name).to eql :protocol
       end
 
-      it 'has n_bytes_spec = 4' do
-        expect(field.n_bytes_spec).to eql 4
+      it 'has n_bytes_allocated = 4' do
+        expect(field.n_bytes_allocated).to eql 4
       end
 
       it 'has default value = "\\xFFSMB"' do
@@ -30,8 +30,8 @@ RSpec.describe NegotiateRequest do
         expect(field.name).to eql :command
       end
 
-      it 'has n_bytes_spec = 1' do
-        expect(field.n_bytes_spec).to eql 1
+      it 'has n_bytes_allocated = 1' do
+        expect(field.n_bytes_allocated).to eql 1
       end
 
       it 'has default value = "\x72"' do
@@ -46,8 +46,8 @@ RSpec.describe NegotiateRequest do
         expect(field.name).to eql :status
       end
 
-      it 'has n_bytes_spec = 4' do
-        expect(field.n_bytes_spec).to eql 4
+      it 'has n_bytes_allocated = 4' do
+        expect(field.n_bytes_allocated).to eql 4
       end
 
       it 'has default value = "\x00"' do
@@ -62,8 +62,8 @@ RSpec.describe NegotiateRequest do
         expect(field.name).to eql :flags
       end
 
-      it 'has n_bytes_spec = 1' do
-        expect(field.n_bytes_spec).to eql 1
+      it 'has n_bytes_allocated = 1' do
+        expect(field.n_bytes_allocated).to eql 1
       end
 
       it 'has default value = "\x18"' do
@@ -78,8 +78,8 @@ RSpec.describe NegotiateRequest do
         expect(field.name).to eql :flags2
       end
 
-      it 'has n_bytes_spec = 2' do
-        expect(field.n_bytes_spec).to eql 2
+      it 'has n_bytes_allocated = 2' do
+        expect(field.n_bytes_allocated).to eql 2
       end
 
       it 'has default value = "\x48\x01"' do
@@ -94,8 +94,8 @@ RSpec.describe NegotiateRequest do
         expect(field.name).to eql :pid_high
       end
 
-      it 'has n_bytes_spec = 2' do
-        expect(field.n_bytes_spec).to eql 2
+      it 'has n_bytes_allocated = 2' do
+        expect(field.n_bytes_allocated).to eql 2
       end
 
       it 'has default value = "\x00"' do
@@ -110,8 +110,8 @@ RSpec.describe NegotiateRequest do
         expect(field.name).to eql :security_features
       end
 
-      it 'has n_bytes_spec = 8' do
-        expect(field.n_bytes_spec).to eql 8
+      it 'has n_bytes_allocated = 8' do
+        expect(field.n_bytes_allocated).to eql 8
       end
 
       it 'has default value = "\x00"' do
@@ -126,8 +126,11 @@ RSpec.describe NegotiateRequest do
         expect(field.name).to eql :reserved
       end
 
-      it 'has n_bytes_spec = 2' do
-        expect(field.n_bytes_spec).to eql 2
+      it 'has n_bytes_allocated = 2' do
+        puts "-----------------"
+        puts command
+        puts "-----------------"
+        expect(field.n_bytes_allocated).to eql 2
       end
 
       it 'has default value = "\x00"' do
@@ -142,8 +145,8 @@ RSpec.describe NegotiateRequest do
         expect(field.name).to eql :tid
       end
 
-      it 'has n_bytes_spec = 2' do
-        expect(field.n_bytes_spec).to eql 2
+      it 'has n_bytes_allocated = 2' do
+        expect(field.n_bytes_allocated).to eql 2
       end
 
       it 'has default value = "\xFF\xFF"' do
@@ -158,8 +161,8 @@ RSpec.describe NegotiateRequest do
         expect(field.name).to eql :pid_low
       end
 
-      it 'has n_bytes_spec = 2' do
-        expect(field.n_bytes_spec).to eql 2
+      it 'has n_bytes_allocated = 2' do
+        expect(field.n_bytes_allocated).to eql 2
       end
 
       it 'has default value = "\x00"' do
@@ -174,8 +177,8 @@ RSpec.describe NegotiateRequest do
         expect(field.name).to eql :uid
       end
 
-      it 'has n_bytes_spec = 2' do
-        expect(field.n_bytes_spec).to eql 2
+      it 'has n_bytes_allocated = 2' do
+        expect(field.n_bytes_allocated).to eql 2
       end
 
       it 'has default value = "\x00"' do
@@ -190,8 +193,8 @@ RSpec.describe NegotiateRequest do
         expect(field.name).to eql :mid
       end
 
-      it 'has n_bytes_spec = 2' do
-        expect(field.n_bytes_spec).to eql 2
+      it 'has n_bytes_allocated = 2' do
+        expect(field.n_bytes_allocated).to eql 2
       end
 
       it 'has default value = "\x00"' do
@@ -206,8 +209,8 @@ RSpec.describe NegotiateRequest do
         expect(field.name).to eql :dialects
       end
 
-      it 'has n_bytes_spec = 34' do
-        expect(field.n_bytes_spec).to eql 34
+      it 'has n_bytes_allocated = 34' do
+        expect(field.n_bytes_allocated).to eql 34
       end
 
       it 'has default value = dialect string' do

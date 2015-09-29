@@ -1,102 +1,102 @@
 module RubySMB
 module SMB1
 module Command
-class  NegotiateRequest < RubySMB::SMB_Field::Composite_Field
+class  NegotiateRequest < RubySMB::Field::Composite
 
   def initialize
     super()
 
-    add_field( RubySMB::SMB_Field::Leaf_Field.new do |f|
-                 f.name         = :protocol
-                 f.n_bytes_spec = 4
-                 f.value        = "\xFFSMB"
-               end )
+    add_child( RubySMB::Field::LeafField.new(
+                    name: :protocol,
+                 n_bytes_allocated: 4,
+                   value: "\xFFSMB"
+               ))
 
-    add_field( RubySMB::SMB_Field::Leaf_Field.new do |f|
-                 f.name         = :command
-                 f.n_bytes_spec = 1
-                 f.value        = "\x72"
-               end )
+    add_child(RubySMB::Field::LeafField.new(
+                   name: :command,
+                   n_bytes_allocated: 1,
+                  value: "\x72"
+              ))
 
-    add_field( RubySMB::SMB_Field::Leaf_Field.new do |f|
-                 f.name         = :status
-                 f.n_bytes_spec = 4
-                 f.value        = "\x00"
-               end )
+    add_child(RubySMB::Field::LeafField.new(
+                   name: :status,
+                   n_bytes_allocated: 4,
+                  value: "\x00"
+              ))
 
-    add_field( RubySMB::SMB_Field::Leaf_Field.new do |f|
-                 f.name         = :flags
-                 f.n_bytes_spec = 1
-                 f.value        = "\x18"
-               end )
+    add_child( RubySMB::Field::LeafField.new(
+                   name: :flags,
+                   n_bytes_allocated: 1,
+                  value: "\x18"
+               ))
 
-    add_field( RubySMB::SMB_Field::Leaf_Field.new do |f|
-                 f.name         = :flags2
-                 f.n_bytes_spec = 2
-                 f.value        = "\x48\x01"
-               end )
+    add_child( RubySMB::Field::LeafField.new(
+                   name: :flags2,
+                   n_bytes_allocated: 2,
+                  value: "\x48\x01"
+               ))
 
-    add_field( RubySMB::SMB_Field::Leaf_Field.new do |f|
-                 f.name         = :pid_high
-                 f.n_bytes_spec = 2
-                 f.value        = "\x00"
-               end )
+    add_child( RubySMB::Field::LeafField.new(
+                   name: :pid_high,
+                   n_bytes_allocated: 2,
+                  value: "\x00"
+               ))
 
-    add_field( RubySMB::SMB_Field::Leaf_Field.new do |f|
-                 f.name         = :security_features
-                 f.n_bytes_spec = 8
-                 f.value        = "\x00"
-               end )
+    add_child( RubySMB::Field::LeafField.new(
+                   name: :security_features,
+                   n_bytes_allocated: 8,
+                  value: "\x00"
+               ))
 
-    add_field( RubySMB::SMB_Field::Leaf_Field.new do |f|
-                 f.name         = :reserved
-                 f.n_bytes_spec = 2
-                 f.value        = "\x00"
-               end )
+    add_child( RubySMB::Field::LeafField.new(
+                   name: :reserved,
+                   n_bytes_allocated: 2,
+                  value: "\x00"
+               ))
 
-    add_field( RubySMB::SMB_Field::Leaf_Field.new do |f|
-                 f.name         = :tid
-                 f.n_bytes_spec = 2
-                 f.value        = "\xFF\xFF"
-               end )
+    add_child( RubySMB::Field::LeafField.new(
+                   name: :tid,
+                   n_bytes_allocated: 2,
+                  value: "\xFF\xFF"
+               ))
 
-    add_field( RubySMB::SMB_Field::Leaf_Field.new do |f|
-                 f.name         = :pid_low
-                 f.n_bytes_spec = 2
-                 f.value        = "\x00"
-               end )
+    add_child( RubySMB::Field::LeafField.new(
+                   name: :pid_low,
+                   n_bytes_allocated: 2,
+                  value: "\x00"
+               ))
 
-    add_field( RubySMB::SMB_Field::Leaf_Field.new do |f|
-                 f.name         = :uid
-                 f.n_bytes_spec = 2
-                 f.value        = "\x00"
-               end )
+    add_child( RubySMB::Field::LeafField.new(
+                   name: :uid,
+                   n_bytes_allocated: 2,
+                  value: "\x00"
+               ))
 
-    add_field( RubySMB::SMB_Field::Leaf_Field.new do |f|
-                 f.name         = :mid
-                 f.n_bytes_spec = 2
-                 f.value        = "\x00"
-               end )
+    add_child( RubySMB::Field::LeafField.new(
+                   name: :mid,
+                   n_bytes_allocated: 2,
+                  value: "\x00"
+               ))
 
-    add_field( RubySMB::SMB_Field::Leaf_Field.new do |f|
-                 f.name         = :dialects
-                 f.n_bytes_spec = 34
-                 f.value        = "\x02NT LM 0.12\x00\x02SMB 2.002\x00\x02SMB 2.???\x00"
-               end )
+    add_child( RubySMB::Field::LeafField.new(
+                   name: :dialects,
+                   n_bytes_allocated: 34,
+                  value: "\x02NT LM 0.12\x00\x02SMB 2.002\x00\x02SMB 2.???\x00"
+               ))
 
 
 
-    # add_field( RubySMB::SMB_Field::Leaf_Field.new do |f|
+    # add_child( RubySMB::Field::LeafField.new do |f|
     #              f.name         = :dialects
-    #              f.n_bytes_spec = 34
-    #              f.dialects = RubySMB::SMB_Field::Composite_Field.new do |d|
-    #                  d.add_field(RubySMB::SMB_Field::Leaf_Field.new do |df|
+    #              f.n_bytes_allocated = 34
+    #              f.dialects = RubySMB::Field::Composite_Field.new do |d|
+    #                  d.add_child(RubySMB::Field::LeafField.new do |df|
     #                   df.name   = :d1
-    #                   df.n_bytes_spec = 12
+    #                   df.n_bytes_allocated = 12
     #                   df.value  = "\x02NT LM 0.12\x00"
     #                  end)
     #
-    #                  d.add_field()
+    #                  d.add_child()
     #
     #
     #
@@ -111,7 +111,8 @@ class  NegotiateRequest < RubySMB::SMB_Field::Composite_Field
   end
 
   def field(name)
-    fields.select { |f| f.name == name }.first
+    puts self.inspect
+    children.select { |f| f.name == name }.first
   end
 
 end

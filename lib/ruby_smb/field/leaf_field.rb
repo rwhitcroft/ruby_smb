@@ -1,6 +1,6 @@
 module RubySMB
-module SMB_Field
-class  Leaf_Field < Field
+class Field
+class LeafField < Field
   def initialize_field(n_bytes: nil, value: nil)
   end
 
