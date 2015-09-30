@@ -1,3 +1,4 @@
+require 'pry'
 module RubySMB
 module SMB1
 module Command
@@ -33,7 +34,7 @@ class  NegotiateRequest < RubySMB::Field::Composite
     add_child( RubySMB::Field::LeafField.new(
                     name: :flags2,
        n_bytes_allocated: 2,
-                   value: "\x48\x01"
+                   value: "\x48\x34"
                ))
 
     add_child( RubySMB::Field::LeafField.new(
@@ -78,6 +79,20 @@ class  NegotiateRequest < RubySMB::Field::Composite
                    value: "\x00"
                ))
 
+    #add parameter fields
+    add_child( RubySMB::Field::LeafField.new(
+                    name: :byte_count,
+       n_bytes_allocated: 1,
+                   value: "\x00"
+               ))
+
+    #add data fields
+    add_child( RubySMB::Field::LeafField.new(
+                    name: :byte_count,
+       n_bytes_allocated: 2,
+                   value: "\x00"
+               ))
+
     set_dialects(['NT LM 0.12', 'SMB 2.002', 'SMB 2.???'])
   end
 
@@ -95,22 +110,29 @@ class  NegotiateRequest < RubySMB::Field::Composite
     dialects.each_with_index do |dialect, index|
       dialect_field = RubySMB::Field::Composite.new(name: "dialect#{index}")
       dialect_field.add_child(
+        RubySMB::Field::LeafField.new(
                             name: 'buffer_format',
                n_bytes_allocated: 1,
                            value: "\x02"
-      )
+      ))
       dialect_field.add_child(
+        RubySMB::Field::LeafField.new(
                             name: 'dialect_string',
                            value: dialect
-      )
+      ))
       dialect_field.add_child(
+        RubySMB::Field::LeafField.new(
                             name: 'null',
                n_bytes_allocated: 1,
                            value: "\x00"
-      )
+      ))
 
       dialects_field.add_child(dialect_field)
     end
+
+    byte_count_value = [dialects_field.to_binary_s.bytesize.to_s(16).to_i].pack('c*')
+
+    children.select{ |child| child.name == :byte_count }.first.value = byte_count_value
     self.add_child(dialects_field)
   end
 end
