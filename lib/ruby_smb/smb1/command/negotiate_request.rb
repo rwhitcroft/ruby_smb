@@ -130,7 +130,7 @@ class  NegotiateRequest < RubySMB::Field::Composite
       dialects_field.add_child(dialect_field)
     end
 
-    byte_count_value = [dialects_field.to_binary_s.bytesize.to_s(16).to_i].pack('c*')
+    byte_count_value = [dialects_field.to_binary_s.bytesize].pack('c*')
 
     children.select{ |child| child.name == :byte_count }.first.value = byte_count_value
     self.add_child(dialects_field)
